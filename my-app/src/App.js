@@ -5,8 +5,8 @@ import React,{useState} from 'react';
 //*****COMPONENTS********/
 import InputBox from './components/InputBox';
 import Card from './components/Card';
+import Header from './components/Header';
 
-//import axios from "axios";
 
 
 function App() {
@@ -20,12 +20,13 @@ const handleCityChange=(newCity)=>{
 
   return (
    <>
-   <div className='container-fluid' id='main'>
-   <div className='row justify-content-center align-items-center' style={{height:"100vh"}}>
+   <div className='container-fluid ' id='main'>
+   <div className='row justify-content-center align-items-center ' style={{height:"100vh"}}>
+   <Header/>
+
 
               <InputBox onCityChange={handleCityChange}/>
-              <Card city={city}/>
-
+              { city && <Card city={city}/>}
    </div>
    </div>
 

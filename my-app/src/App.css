@@ -1,3 +1,4 @@
+
 #main{
 height: 100vh;
 background: url('/public/background-photo.jpg') center;
@@ -6,8 +7,12 @@ background-repeat: no-repeat;
 
 }
 
-.half-opacity-bg {
-  background-color: rgba(39, 39, 39, 0.5);
+
+.card-Background{
+  background-color: rgba(2, 2, 2, 0.5) !important;
   border-radius: 0.3rem;
 }
 
+.card-footer-bg{
+  background-color: rgba(2, 2, 2, 0.568) !important;
+}
