@@ -1,4 +1,9 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
+
+
+
+import { ToastContainer, toast } from 'react-toastify';//Library for pop up message
+import 'react-toastify/dist/ReactToastify.css';
 
 
 import axios from "axios";
@@ -6,7 +11,8 @@ import axios from "axios";
 
 
 const Card = ({city}) => {
-
+    const [cityName,updateName]=useState("");
+    const [countryName,updateCountryName]=useState("");
     const [temp,updateTemp]=useState("");
     const [feelsLike,updatefeelsLike]=useState("");
     const [icon ,updateIcon]=useState();
@@ -14,7 +20,6 @@ const Card = ({city}) => {
     const [wind,updateWind]=useState("");   
     const [date,updateDate]=useState("");  
 
-    const Days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 
 
   const fetchData = async () => {
@@ -34,6 +39,8 @@ const Card = ({city}) => {
     try {
       const response = await axios(options);
       console.log(response.data);
+      updateName(response.data.location.name);
+      updateCountryName(response.data.location.country);
       updateTemp(response.data.current.temp_c)
       updatefeelsLike(response.data.current.feelslike_c);
       updateIcon(response.data.current.condition.icon);
@@ -45,13 +52,23 @@ const Card = ({city}) => {
     //  console.log(response.data.forecast.forecastday[0]);
      
     } catch (error) {
+
       console.error(error);
+      toast.error('Please type a valid city name !', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
   
   // fetchData fonksiyonunu çağırarak asenkron işlemi başlatın
-  fetchData();
- 
+  useEffect(() => {
+    fetchData();
+  }, [city]); 
   
 
 
@@ -63,7 +80,9 @@ const Card = ({city}) => {
     <div className="card-header">
         <div className='row'>
            <div className='col-6  d-flex flex-column align-items-center justify-content-center'>
-             <p className='card-text text-uppercase fw-bold'>{city}</p>
+             <p className='card-text text-uppercase fw-bold'>{cityName}</p>
+             <p className='card-text text-capitalize'>( {countryName} )</p>
+
            </div>
            <div className='col-6 d-flex flex-column align-items-center justify-content-center'>
            <img src={icon} alt="icon-for-current-weather-situation"/>
@@ -112,8 +131,12 @@ const Card = ({city}) => {
     </div>  
     </div>
 
+    <ToastContainer/>
+
+
   </div>
-  
+
+
   )
 }
 
